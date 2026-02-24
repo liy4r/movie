@@ -22,9 +22,9 @@ export const getMovies = async (req: Request, res: Response): Promise<void> => {
         .skip(skip)
         .limit(limit)
         .select(
-          "title year runtime genres directors cast plot poster rated imdb awards type"
+          "title year runtime genres directors cast plot poster rated imdb awards type",
         ),
-      Movie.countDocuments(filter)
+      Movie.countDocuments(filter),
     ]);
 
     res.json({
@@ -32,7 +32,7 @@ export const getMovies = async (req: Request, res: Response): Promise<void> => {
       limit,
       total,
       totalPages: Math.ceil(total / limit),
-      movies
+      movies,
     });
   } catch (err) {
     console.error(err);
@@ -40,9 +40,25 @@ export const getMovies = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const getGenres = async (req: Request, res: Response) => {
+  try {
+    const genres = await Movie.distinct("genres");
+
+    return res.status(200).json({
+      success: true,
+      genres,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch genres",
+    });
+  }
+};
+
 export const getMovieById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const movie = await Movie.findById(req.params.id);
