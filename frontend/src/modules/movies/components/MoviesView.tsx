@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { MovieCard } from "./MovieCard";
 import { MovieCardSkeleton } from "./MovieCardSkeleton";
+import { useGenres } from "@/modules/movies/hooks/useGenres";
 
 const GENRES = [
   "Action",
@@ -20,17 +21,6 @@ const GENRES = [
   "Crime",
   "Sci-Fi",
 ];
-// const Genres = async () => {
-//   const [genres, setGenres] = useState();
-//   useEffect(() => {
-//     const fetchGenres = async () => {
-//       const res = await fetch("http://localhost:3000/api/movies/genres");
-//       const data = await res.json();
-//       setGenres(data.genres);
-//       fetchGenres();
-//     };
-//   });
-// };
 
 const MoviesView = () => {
   const navigate = useNavigate();
@@ -50,6 +40,9 @@ const MoviesView = () => {
     genre: selectedGenre || undefined,
   });
 
+  const { genres } = useGenres();
+
+  console.log(genres, "genres");
   const movies = data?.movies ?? [];
   const totalPages = data?.totalPages ?? 1;
   const total = data?.total ?? 0;
