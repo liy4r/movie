@@ -44,13 +44,13 @@ export const getGenres = async (req: Request, res: Response) => {
   try {
     const genres = await Movie.distinct("genres");
 
-    return res.status(200).json({
-      success: true,
-      genres,
-    });
+    const cleaned = [...new Set(genres.map((g: string) => g.toLowerCase()))]
+      .map((g) => g.charAt(0).toUpperCase() + g.slice(1))
+      .sort();
+
+    res.json(cleaned);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
+    res.status(500).json({
       message: "Failed to fetch genres",
     });
   }
