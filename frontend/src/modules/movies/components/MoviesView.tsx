@@ -41,6 +41,7 @@ const MoviesView = () => {
   });
 
   const { data: genres = [], isLoading: loadingGenre } = useGenres();
+
   const movies = data?.movies ?? [];
   const totalPages = data?.totalPages ?? 1;
   const total = data?.total ?? 0;
