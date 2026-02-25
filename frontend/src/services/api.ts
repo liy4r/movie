@@ -2,11 +2,24 @@ import type { Movie, MoviesResponse } from "@/types/movie";
 
 const BASE_URL = "http://localhost:3000/api";
 
-export const fetchGenres = async () => {
-  const res = await fetch(`${BASE_URL}/movies/genres`);
-  const data = await res.json();
+// export const fetchGenres = async () => {
+//   const res = await fetch(`${BASE_URL}/movies/genres`);
 
-  return data;
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch genres");
+//   }
+
+//   return res.json();
+// };
+
+export const fetchGenres = async (): Promise<string[]> => {
+  const res = await fetch(`${BASE_URL}/movies/genres`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch genres");
+  }
+
+  return res.json();
 };
 
 const getHeaders = (): Record<string, string> => {

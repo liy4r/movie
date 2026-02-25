@@ -9,18 +9,18 @@ import { MovieCard } from "./MovieCard";
 import { MovieCardSkeleton } from "./MovieCardSkeleton";
 import { useGenres } from "@/modules/movies/hooks/useGenres";
 
-const GENRES = [
-  "Action",
-  "Comedy",
-  "Drama",
-  "Horror",
-  "Romance",
-  "Thriller",
-  "Animation",
-  "Documentary",
-  "Crime",
-  "Sci-Fi",
-];
+// const GENRES = [
+//   "Action",
+//   "Comedy",
+//   "Drama",
+//   "Horror",
+//   "Romance",
+//   "Thriller",
+//   "Animation",
+//   "Documentary",
+//   "Crime",
+//   "Sci-Fi",
+// ];
 
 const MoviesView = () => {
   const navigate = useNavigate();
@@ -40,9 +40,7 @@ const MoviesView = () => {
     genre: selectedGenre || undefined,
   });
 
-  const { genres } = useGenres();
-
-  console.log(genres, "genres");
+  const { data: genres = [], isLoading: loadingGenre } = useGenres();
   const movies = data?.movies ?? [];
   const totalPages = data?.totalPages ?? 1;
   const total = data?.total ?? 0;
@@ -57,6 +55,10 @@ const MoviesView = () => {
     setSearchParams({ search, genre: newGenre, page: "1" });
   };
 
+  if (loadingGenre) {
+    <div>loading</div>;
+  }
+  console.log(genres, "genreData");
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b">
@@ -96,7 +98,7 @@ const MoviesView = () => {
           >
             All
           </Button>
-          {GENRES.map((genre) => (
+          {genres.map((genre) => (
             <Button
               key={genre}
               variant={selectedGenre === genre ? "default" : "outline"}
