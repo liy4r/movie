@@ -2,19 +2,17 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import moviesRouter from "./routes/movies";
-import authRouter from "./auth/routes/auth";
+// import moviesRouter from "./routes/movies";
 import restaurantsRouter from "./routes/restaurants";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI || "";
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRouter);
-app.use("/api/movies", moviesRouter);
+// app.use("/api/movies", moviesRouter);
 app.use("/api/res", restaurantsRouter);
 
 app.get("/health", (_req, res) => {
@@ -24,7 +22,7 @@ app.get("/health", (_req, res) => {
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    console.log("Connected to MongoDB (sample_mflix)");
+    console.log("Connected to MongoDB (sample_restaurants)");
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

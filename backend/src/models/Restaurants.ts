@@ -6,12 +6,17 @@ const addressSchema = new Schema({
   zipcode: { type: String },
 });
 
-const restaurantSchema = new Schema({
-  name: { type: String },
-  address: { type: addressSchema },
-  borough: { type: String },
-  cuisine: { type: String },
-});
+const restaurantSchema = new Schema(
+  {
+    name: { type: String },
+    address: { type: addressSchema },
+    borough: { type: String },
+    cuisine: { type: String },
+  },
+  {
+    collection: "restaurants",
+  },
+);
 
 const Restaurants = model("Restaurants", restaurantSchema);
 

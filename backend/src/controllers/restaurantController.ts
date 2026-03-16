@@ -20,13 +20,11 @@ export const getRestaurant = async (
       filter.genres = req.query.genre as string;
     }
 
-    const [movies, total] = await Promise.all([
+    const [restaurant, total] = await Promise.all([
       Restaurants.find(filter)
         .skip(skip)
         .limit(limit)
-        .select(
-          "title year runtime genres directors cast plot poster rated imdb awards type",
-        ),
+        .select("name address borough cuisines reviews"),
       Restaurants.countDocuments(filter),
     ]);
 
@@ -35,7 +33,7 @@ export const getRestaurant = async (
       limit,
       total,
       totalPages: Math.ceil(total / limit),
-      movies,
+      restaurant,
     });
   } catch (err) {
     console.error(err);
