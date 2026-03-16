@@ -1,54 +1,28 @@
-import type { Movie, MoviesResponse } from "@/types/movie";
+import type { Restaurant, RestaurantResponse } from "@/types/res";
 
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = "http://localhost:4000/api";
 
-const getHeaders = (): Record<string, string> => {
-  const token = localStorage.getItem("auth-token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
-
-export interface GetMoviesParams {
+export interface GetResParams {
   page?: number;
   limit?: number;
   search?: string;
-  genre?: string;
+  cuisine?: string;
 }
 
-export const getMovies = async (
-  params: GetMoviesParams = {},
-): Promise<MoviesResponse> => {
+export const getRes = async (
+  params: GetResParams = {},
+): Promise<RestaurantResponse> => {
   const query = new URLSearchParams();
   if (params.page) query.set("page", String(params.page));
   if (params.limit) query.set("limit", String(params.limit));
   if (params.search) query.set("search", params.search);
-  if (params.genre) query.set("genre", params.genre);
+  if (params.cuisine) query.set("cuisine", params.cuisine);
 
-  const res = await fetch(`${BASE_URL}/movies?${query}`, {
-    headers: getHeaders(),
-  });
+  const res = await fetch(`${BASE_URL}/res?${query}`);
   return res.json();
 };
 
-export const getMovie = async (id: string): Promise<Movie> => {
-  const res = await fetch(`${BASE_URL}/movies/${id}`, {
-    headers: getHeaders(),
-  });
-  return res.json();
-};
-
-export const getUser = async (): Promise<{ id: string }> => {
-  const res = await fetch(`${BASE_URL}/auth/me`, {
-    headers: getHeaders(),
-  });
-  return res.json();
-};
-
-export const login = async (email: string, password: string) => {
-  const res = await fetch(`${BASE_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!res.ok) throw new Error("Invalid credentials");
+export const getRestaurant = async (id: string): Promise<Restaurant> => {
+  const res = await fetch(`${BASE_URL}/res/${id}`, {});
   return res.json();
 };
