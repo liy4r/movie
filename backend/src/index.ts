@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import moviesRouter from "./routes/movies";
 import authRouter from "./auth/routes/auth";
+import restaurantsRouter from "./routes/restaurants";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/movies", moviesRouter);
+app.use("/api/res", restaurantsRouter);
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
